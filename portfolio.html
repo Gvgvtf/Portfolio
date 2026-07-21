@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chester — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #EEF1EC;
+    --paper-card: #FBFBF8;
+    --ink: #1B2430;
+    --ink-soft: #4A5568;
+    --line: #C9D1C6;
+    --green: #3F6C51;
+    --green-deep: #2C4E3B;
+    --gold: #B8863E;
+
+    --font-display: 'Fraunces', serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.5;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  body.dark{
+    --paper: #1B1F1C;
+    --paper-card: #242926;
+    --ink: #EDEFE9;
+    --ink-soft: #A3ADA5;
+    --line: #3A423C;
+    --green: #6FA382;
+    --green-deep: #8FC7A6;
+    --gold: #D6A85E;
+  }
+
+  .theme-toggle{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.03em;
+    background:none;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    border-radius:20px;
+    padding:7px 14px;
+    cursor:pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .theme-toggle:hover, .theme-toggle:focus-visible{
+    border-color:var(--ink);
+    color:var(--ink);
+    outline:none;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+
+  a{ color:inherit; }
+
+  .wrap{
+    max-width: 900px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    padding:80px 0 56px;
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(30px, 4vw, 38px);
+    letter-spacing:-0.01em;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding:56px 0; }
+  section + section{
+    border-top:1px solid var(--line);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:32px;
+  }
+  .section-head h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:26px;
+  }
+  .section-head .count{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:20px;
+  }
+  .grid.single{
+    grid-template-columns:1fr;
+    max-width:420px;
+    margin:0 auto;
+  }
+
+  .project{
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:22px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .project:hover{
+    border-color:var(--ink);
+    transform:translateY(-2px);
+  }
+  .project-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .project h3{
+    font-family:var(--font-display);
+    font-size:19px;
+    font-weight:600;
+  }
+  .tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:3px;
+    white-space:nowrap;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+  .tag.live{ color:var(--green-deep); border-color:var(--green); }
+  .tag.wip{ color:#8A6323; border-color:var(--gold); }
+
+  .project p{
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+
+  .stack{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:2px;
+  }
+  .stack span{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:2px 7px;
+  }
+
+  .project-link{
+    margin-top:auto;
+    padding-top:4px;
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-decoration:none;
+    color:var(--green-deep);
+    width:fit-content;
+    border-bottom:1px solid transparent;
+  }
+  .project-link:hover{ border-bottom-color:var(--green-deep); }
+  .project-link.disabled{
+    color:var(--ink-soft);
+    cursor:default;
+  }
+
+  footer{
+    padding:32px 0 48px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width:640px){
+    .grid{ grid-template-columns:1fr; }
+    header{ padding:56px 0 40px; }
+  }
+</style>
+</head>
+<body class="dark">
+
+<header>
+  <div class="wrap">
+    <h1 style="text-align:center;">Chester's Portfolio</h1>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">Dark mode</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="published">
+    <div class="section-head">
+      <h2>Published</h2>
+      <span class="count">Live on the web</span>
+    </div>
+
+    <div class="grid single">
+
+      <article class="project">
+        <div class="project-top">
+          <h3>All-in-One Grade Calculator</h3>
+          <span class="tag live">Live</span>
+        </div>
+        <p>All of your grades in one place. Use this innovative calculator to efficiently track your grades across multiple subjects.</p>
+        <div class="stack">
+          <span>HTML</span>
+        </div>
+        <a href="https://all-in-one-grade-calculator.vercel.app" class="project-link" target="_blank" rel="noopener">Visit site →</a>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="progress">
+    <div class="section-head">
+      <h2>In Progress</h2>
+      <span class="count">Currently building</span>
+    </div>
+
+    <div class="grid">
+
+      <article class="project">
+        <div class="project-top">
+          <h3>6 7 Card Game</h3>
+          <span class="tag wip">In progress</span>
+        </div>
+        <p>A browser-based card game with animated draw and play interactions.</p>
+        <div class="stack">
+          <span>TypeScript</span>
+        </div>
+        <span class="project-link disabled">No demo available</span>
+      </article>
+
+      <article class="project">
+        <div class="project-top">
+          <h3>POS System</h3>
+          <span class="tag wip">In progress</span>
+        </div>
+        <p>An application to track small scale sales and inventory</p>
+        <div class="stack">
+          <span>Python</span><span>exe</span>
+        </div>
+        <a href="POS_System.exe" download class="project-link">View Demo →</a>
+      </article>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const body = document.body;
+
+  function applyTheme(isDark){
+    body.classList.toggle('dark', isDark);
+    toggle.textContent = isDark ? 'Light mode' : 'Dark mode';
+  }
+
+  const prefersDark = true;
+  applyTheme(prefersDark);
+
+  toggle.addEventListener('click', () => {
+    applyTheme(!body.classList.contains('dark'));
+  });
+</script>
+
+</body>
+</html>
